@@ -2,7 +2,7 @@ import { ANTLRInputStream, CommonTokenStream } from 'antlr4ts';
 import { Excellent2Lexer } from './gen/Excellent2Lexer';
 import { Excellent2Parser } from './gen/Excellent2Parser';
 
-export default class Excellent {
+export default class Parser {
 
     parse(expression: string) {
         let inputStream = new ANTLRInputStream(expression);
