@@ -2,7 +2,7 @@ language: node_js
 
 cache:
   directories:
-    - ~/.npm
+    - $HOME/.npm
     
 node_js:
   - '10'
@@ -10,9 +10,6 @@ node_js:
 install:
   - npm ci --no-optional
   - npm i -g codecov
-
-script:
-  - npm run test:prod && npm run build
 
 after_success:
   - codecov --file=coverage/lcov.info --disable=search,gcov

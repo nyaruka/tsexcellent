@@ -4,13 +4,17 @@ import { Excellent2Parser } from './gen/Excellent2Parser';
 
 export default class Parser {
 
-    parse(expression: string) {
-        let inputStream = new ANTLRInputStream(expression);
-        let lexer = new Excellent2Lexer(inputStream);
-        let tokenStream = new CommonTokenStream(lexer);
-        let parser = new Excellent2Parser(tokenStream);
-        let tree = parser.parse();
+    public parse(expression: string): boolean {
+        const inputStream = new ANTLRInputStream(expression);
+        const lexer = new Excellent2Lexer(inputStream);
+        const tokenStream = new CommonTokenStream(lexer);
+        const parser = new Excellent2Parser(tokenStream);
 
-        return tree;
+        try {
+            parser.parse();
+            return true;
+        } catch (e) {
+            return false
+        }
     }
 }

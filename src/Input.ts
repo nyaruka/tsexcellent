@@ -5,26 +5,26 @@
 const EOF = '\0';
 
 export class Reader {
-    s: string;
-    p: number;
+    private s: string;
+    private p: number;
 
     constructor(s: string) {
         this.s = s;
         this.p = 0;
     }
 
-    readChar(): string {
+    public readChar(): string {
         if (this.p >= this.s.length) {
-            throw new Error("no more characters");
+            throw new Error('no more characters');
         }
         return this.s[this.p++];
     }
 }
 
 export class Input {
-    base: Reader;
-    unreadChars: string[];
-    unreadCount: number;
+    private base: Reader;
+    private unreadChars: string[];
+    private unreadCount: number;
 
     constructor(base: Reader) {
         this.base = base;
@@ -33,7 +33,7 @@ export class Input {
     }
 
     // gets the next char or EOF if we are at the end of the string
-    read(): string {
+    public read(): string {
         // first see if we have any unread runes to return
         if (this.unreadCount > 0) {
             const ch = this.unreadChars[this.unreadCount - 1]
@@ -50,7 +50,7 @@ export class Input {
     }
 
     // pops the passed in char as the next char to be returned
-    unread(ch: string) {
+    public unread(ch: string): void {
         this.unreadChars[this.unreadCount] = ch
         this.unreadCount++
     }

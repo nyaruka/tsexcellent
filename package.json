@@ -3,18 +3,12 @@
   "version": "0.0.0",
   "description": "Typescript library for working with Excellent templates in a browser",
   "keywords": [],
-  "main": "dist/tsexcellent.umd.js",
-  "module": "dist/tsexcellent.es5.js",
-  "typings": "dist/types/tsexcellent.d.ts",
   "files": [
     "dist"
   ],
   "author": "Nyaruka <code@nyaruka.com>",
-  "repository": {
-    "type": "git",
-    "url": ""
-  },
-  "license": "MIT",
+  "repository": "git://github.com/nyaruka/tsexcellent.git",
+  "license": "AGPL-3.0",
   "engines": {
     "node": ">=6.0.0"
   },
@@ -64,10 +58,6 @@
         "diagnostics": false
       }
     }
-  },
-  "prettier": {
-    "semi": false,
-    "singleQuote": true
   },
   "devDependencies": {
     "@types/jest": "^23.3.2",
