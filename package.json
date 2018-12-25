@@ -1,11 +1,11 @@
 {
-  "name": "excellentjs",
+  "name": "tsexcellent",
   "version": "0.0.0",
   "description": "Typescript library for working with Excellent templates in a browser",
   "keywords": [],
-  "main": "dist/excellentjs.umd.js",
-  "module": "dist/excellentjs.es5.js",
-  "typings": "dist/types/excellentjs.d.ts",
+  "main": "dist/tsexcellent.umd.js",
+  "module": "dist/tsexcellent.es5.js",
+  "typings": "dist/types/tsexcellent.d.ts",
   "files": [
     "dist"
   ],
