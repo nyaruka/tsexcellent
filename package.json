@@ -9,7 +9,7 @@
   "files": [
     "dist"
   ],
-  "author": "Rowan Seymour <rowanseymour@gmail.com>",
+  "author": "Nyaruka <code@nyaruka.com>",
   "repository": {
     "type": "git",
     "url": ""
@@ -21,12 +21,10 @@
   "scripts": {
     "lint": "tslint  --project tsconfig.json -t codeFrame 'src/**/*.ts' 'test/**/*.ts'",
     "prebuild": "rimraf dist",
-    "build": "tsc --module commonjs && typedoc --out docs --target es6 --theme minimal --mode file src",
+    "build": "tsc --module commonjs",
     "test": "jest --coverage",
     "test:watch": "jest --coverage --watch",
     "test:prod": "npm run lint && npm run test -- --no-cache",
-    "report-coverage": "cat ./coverage/lcov.info | coveralls",
-    "travis-deploy-once": "travis-deploy-once",
     "antlr": "cd antlr && antlr4ts -visitor -o ../src/gen Excellent2.g4"
   },
   "lint-staged": {
@@ -76,7 +74,6 @@
     "@types/node": "^10.11.0",
     "antlr4ts-cli": "^0.5.0-alpha.1",
     "colors": "^1.3.2",
-    "coveralls": "^3.0.2",
     "cross-env": "^5.2.0",
     "husky": "^1.0.1",
     "jest": "^23.6.0",
@@ -87,13 +84,11 @@
     "prompt": "^1.0.0",
     "replace-in-file": "^3.4.2",
     "rimraf": "^2.6.2",
-    "travis-deploy-once": "^5.0.9",
     "ts-jest": "^23.10.2",
     "ts-node": "^7.0.1",
     "tslint": "^5.11.0",
     "tslint-config-prettier": "^1.15.0",
     "tslint-config-standard": "^8.0.1",
-    "typedoc": "^0.12.0",
     "typescript": "^3.0.3"
   },
   "dependencies": {
