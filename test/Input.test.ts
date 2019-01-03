@@ -1,4 +1,4 @@
-import { Reader, Input } from "../src/Input";
+import { Reader, XInput } from "../src/Input";
 
 describe("Reader", () => {
     it("Reader reads characters from a string", () => {
@@ -15,8 +15,8 @@ describe("Reader", () => {
 
 describe("Input", () => {
     it("Input reads and unreads from a reader", () => {
-        var input = new Input(new Reader("foo"));
-        expect(input).toBeInstanceOf(Input);
+        var input = new XInput(new Reader("foo"));
+        expect(input).toBeInstanceOf(XInput);
 
         expect(input.read()).toEqual("f");
         expect(input.read()).toEqual("o");

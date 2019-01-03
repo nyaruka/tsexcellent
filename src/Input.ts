@@ -2,7 +2,7 @@
  * Should mirror https://github.com/nyaruka/goflow/blob/master/excellent/input.go as much as reasonably possible.
  */
 
-const EOF = '\0';
+export const eof = '\0';
 
 export class Reader {
     private s: string;
@@ -21,7 +21,7 @@ export class Reader {
     }
 }
 
-export class Input {
+export class XInput {
     private base: Reader;
     private unreadChars: string[];
     private unreadCount: number;
@@ -45,7 +45,7 @@ export class Input {
         try {
             return this.base.readChar();
         } catch (e) {
-            return EOF;
+            return eof;
         }
     }
 
