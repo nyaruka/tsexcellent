@@ -19,7 +19,9 @@
     "test": "jest --coverage",
     "test:watch": "jest --coverage --watch",
     "test:prod": "npm run lint && npm run test -- --no-cache",
-    "antlr": "cd antlr && antlr4ts -visitor -o ../src/gen Excellent2.g4"
+    "antlr": "cd antlr && antlr4ts -visitor -o ../src/gen Excellent2.g4",
+    "preprettify": "prettier --debug-check '{,!(node_modules)/**/}*.@(ts|tsx)'",
+    "prettify": "prettier --write 'src/**/*.{ts,tsx,json,js,css,md}'"
   },
   "lint-staged": {
     "{src,test}/**/*.ts": [

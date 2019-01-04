@@ -36,9 +36,9 @@ export class XInput {
     public read(): string {
         // first see if we have any unread runes to return
         if (this.unreadCount > 0) {
-            const ch = this.unreadChars[this.unreadCount - 1]
-            this.unreadCount--
-            return ch
+            const ch = this.unreadChars[this.unreadCount - 1];
+            this.unreadCount--;
+            return ch;
         }
 
         // otherwise, read the next run
@@ -51,7 +51,7 @@ export class XInput {
 
     // pops the passed in char as the next char to be returned
     public unread(ch: string): void {
-        this.unreadChars[this.unreadCount] = ch
-        this.unreadCount++
+        this.unreadChars[this.unreadCount] = ch;
+        this.unreadCount++;
     }
 }

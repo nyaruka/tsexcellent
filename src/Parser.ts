@@ -3,7 +3,6 @@ import { Excellent2Lexer } from './gen/Excellent2Lexer';
 import { Excellent2Parser } from './gen/Excellent2Parser';
 
 export default class Parser {
-
     public parse(expression: string): boolean {
         const inputStream = new ANTLRInputStream(expression);
         const lexer = new Excellent2Lexer(inputStream);
@@ -14,7 +13,7 @@ export default class Parser {
             parser.parse();
             return true;
         } catch (e) {
-            return false
+            return false;
         }
     }
 }
