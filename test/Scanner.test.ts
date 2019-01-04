@@ -1,4 +1,4 @@
-import { isNameChar, XScanner, XTokenType } from "../src/Scanner";
+import { isNameChar, XScanner, XTokenType, XToken } from "../src/Scanner";
 import { Reader } from "../src/Input";
 
 describe("isNameChar", () => {
@@ -15,34 +15,27 @@ describe("isNameChar", () => {
     })
 })
 
-class scannedToken {
-    public tokenType: XTokenType;
-    public value: string;
-}
-
 describe("XScanner", () => {
-    const scannerTests: { input: string, tokens: scannedToken[] }[] = [
-        { input: "@contact", tokens: [{ tokenType: XTokenType.IDENTIFIER, value: "contact" }] },
-        { input: "Hi @contact how are you?", tokens: [{ tokenType: XTokenType.BODY, value: "Hi " }, { tokenType: XTokenType.IDENTIFIER, value: "contact" }, { tokenType: XTokenType.BODY, value: " how are you?" }] },
-        { input: "@contact...?", tokens: [{ tokenType: XTokenType.IDENTIFIER, value: "contact" }, { tokenType: XTokenType.BODY, value: "...?" }] },
-        { input: "My Twitter is @bob", tokens: [{ tokenType: XTokenType.BODY, value: "My Twitter is " }, { tokenType: XTokenType.BODY, value: "@bob" }] },
-        { input: '@(upper("abc"))', tokens: [{ tokenType: XTokenType.EXPRESSION, value: 'upper("abc")' }] },
-        { input: ' @(upper("abc")) ', tokens: [{ tokenType: XTokenType.BODY, value: " " }, { tokenType: XTokenType.EXPRESSION, value: 'upper("abc")' }, { tokenType: XTokenType.BODY, value: " " }] },
-        { input: '@(', tokens: [{ tokenType: XTokenType.BODY, value: '@(' }] },
-        { input: '@(")', tokens: [{ tokenType: XTokenType.BODY, value: '@(")' }] },
-        { input: '@(")")', tokens: [{ tokenType: XTokenType.EXPRESSION, value: '")"' }] },
-        { input: '@("zz\\"zz")', tokens: [{ tokenType: XTokenType.EXPRESSION, value: '"zz\\"zz"' }] },
+    const scannerTests: { input: string, tokens: XToken[] }[] = [
+        { input: "@contact", tokens: [{ type: XTokenType.IDENTIFIER, value: "contact", start: 0, end: 8 }] },
+        { input: "Hi @contact how are you?", tokens: [{ type: XTokenType.BODY, value: "Hi ", start: 0, end: 3 }, { type: XTokenType.IDENTIFIER, value: "contact", start: 3, end: 11 }, { type: XTokenType.BODY, value: " how are you?", start: 11, end: 24 }] },
+        { input: "@contact...?", tokens: [{ type: XTokenType.IDENTIFIER, value: "contact", start: 0, end: 8 }, { type: XTokenType.BODY, value: "...?", start: 8, end: 12 }] },
+        { input: "My Twitter is @bob", tokens: [{ type: XTokenType.BODY, value: "My Twitter is ", start: 0, end: 14 }, { type: XTokenType.BODY, value: "@bob", start: 14, end: 18 }] },
+        { input: '@(upper("abc"))', tokens: [{ type: XTokenType.EXPRESSION, value: 'upper("abc")', start: 0, end: 15 }] },
+        { input: ' @( upper("abc") ) ', tokens: [{ type: XTokenType.BODY, value: " ", start: 0, end: 1 }, { type: XTokenType.EXPRESSION, value: ' upper("abc") ', start: 1, end: 18 }, { type: XTokenType.BODY, value: " ", start: 18, end: 19 }] },
+        { input: '@(', tokens: [{ type: XTokenType.BODY, value: '@(', start: 0, end: 2 }] },
+        { input: '@(")', tokens: [{ type: XTokenType.BODY, value: '@(")', start: 0, end: 4 }] },
+        { input: '@(")")', tokens: [{ type: XTokenType.EXPRESSION, value: '")"', start: 0, end: 6 }] },
+        { input: '@("zz\\"zz")', tokens: [{ type: XTokenType.EXPRESSION, value: '"zz\\"zz"', start: 0, end: 11 }] },
+        { input: '@@contact', tokens: [{ type: XTokenType.BODY, value: '@@contact', start: 0, end: 9 }] },
+        { input: '@@@contact', tokens: [{ type: XTokenType.BODY, value: '@@', start: 0, end: 2 }, { type: XTokenType.IDENTIFIER, value: "contact", start: 2, end: 10 }] },
     ];
 
-    it("XScanner returns correct tokens", () => {
+    it("scanAll returns correct tokens", () => {
         for (let test of scannerTests) {
             const scanner = new XScanner(new Reader(test.input), ["contact", "flow"]);
             expect(scanner).toBeInstanceOf(XScanner);
-
-            const tokens: scannedToken[] = [];
-            for (let [tokenType, value] = scanner.scan(); tokenType != XTokenType.EOF; [tokenType, value] = scanner.scan()) {
-                tokens.push({ tokenType: tokenType, value: value });
-            }
+            expect(scanner.scanAll()).toEqual(test.tokens);
         }
     })
 })

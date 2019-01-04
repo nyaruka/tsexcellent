@@ -19,26 +19,26 @@ export class Reader {
         }
         return this.s[this.p++];
     }
+
+    public getPos(): number {
+        return this.p;
+    }
 }
 
 export class XInput {
     private base: Reader;
     private unreadChars: string[];
-    private unreadCount: number;
 
     constructor(base: Reader) {
         this.base = base;
         this.unreadChars = [];
-        this.unreadCount = 0;
     }
 
     // gets the next char or EOF if we are at the end of the string
     public read(): string {
         // first see if we have any unread runes to return
-        if (this.unreadCount > 0) {
-            const ch = this.unreadChars[this.unreadCount - 1];
-            this.unreadCount--;
-            return ch;
+        if (this.unreadChars.length > 0) {
+            return this.unreadChars.pop() || eof;
         }
 
         // otherwise, read the next run
@@ -51,7 +51,10 @@ export class XInput {
 
     // pops the passed in char as the next char to be returned
     public unread(ch: string): void {
-        this.unreadChars[this.unreadCount] = ch;
-        this.unreadCount++;
+        this.unreadChars.push(ch);
+    }
+
+    public getPos(): number {
+        return this.base.getPos() - this.unreadChars.length;
     }
 }
