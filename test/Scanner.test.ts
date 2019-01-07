@@ -23,8 +23,6 @@ describe("XScanner", () => {
         { input: "My Twitter is @bob", tokens: [{ type: XTokenType.BODY, value: "My Twitter is ", start: 0, end: 14 }, { type: XTokenType.BODY, value: "@bob", start: 14, end: 18 }] },
         { input: '@(upper("abc"))', tokens: [{ type: XTokenType.EXPRESSION, value: 'upper("abc")', start: 0, end: 15 }] },
         { input: ' @( upper("abc") ) ', tokens: [{ type: XTokenType.BODY, value: " ", start: 0, end: 1 }, { type: XTokenType.EXPRESSION, value: ' upper("abc") ', start: 1, end: 18 }, { type: XTokenType.BODY, value: " ", start: 18, end: 19 }] },
-        { input: '@(', tokens: [{ type: XTokenType.BODY, value: '@(', start: 0, end: 2 }] },
-        { input: '@(")', tokens: [{ type: XTokenType.BODY, value: '@(")', start: 0, end: 4 }] },
         { input: '@(")")', tokens: [{ type: XTokenType.EXPRESSION, value: '")"', start: 0, end: 6 }] },
         { input: '@("zz\\"zz")', tokens: [{ type: XTokenType.EXPRESSION, value: '"zz\\"zz"', start: 0, end: 11 }] },
         { input: '@@contact', tokens: [{ type: XTokenType.BODY, value: '@@contact', start: 0, end: 9 }] },

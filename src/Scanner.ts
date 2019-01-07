@@ -46,8 +46,10 @@ export class XScanner {
         // our parentheses depth
         let parens = 1;
 
+        let ch = '';
+
         // read every subsequent character until we reach the end of the expression
-        for (let ch = this.input.read(); ch != eof; ch = this.input.read()) {
+        for (ch = this.input.read(); ch != eof; ch = this.input.read()) {
             if (ch == '"') {
                 buf.append(ch);
                 this.readTextLiteral(buf);
@@ -67,7 +69,9 @@ export class XScanner {
             }
         }
 
-        if (parens == 0) {
+        const reachedEOF = (ch == eof);
+
+        if (parens == 0 || reachedEOF) {
             return [XTokenType.EXPRESSION, buf.toString()];
         }
 
@@ -99,9 +103,10 @@ export class XScanner {
         // create a buffer and read the current character into it.
         const buf = new StringBuilder();
         let topLevel = '';
+        let ch = '';
 
         // read every subsequent character until we reach the end of the identifier
-        for (let ch = this.input.read(); ch != eof; ch = this.input.read()) {
+        for (ch = this.input.read(); ch != eof; ch = this.input.read()) {
             if (ch == '.' && topLevel == '') {
                 topLevel = buf.toString();
             }
@@ -126,6 +131,7 @@ export class XScanner {
             }
         }
 
+        const reachedEOF = (ch == eof);
         const identifier = buf.toString();
 
         if (topLevel == '') {
@@ -134,14 +140,10 @@ export class XScanner {
         topLevel = topLevel.toLowerCase();
 
         // only return as an identifier if the toplevel scope is valid
-        if (this.identifierTopLevels != null) {
-            for (let validTopLevel of this.identifierTopLevels) {
-                if (topLevel == validTopLevel) {
-                    return [XTokenType.IDENTIFIER, identifier];
-                }
+        for (let validTopLevel of this.identifierTopLevels) {
+            if (topLevel == validTopLevel || reachedEOF && validTopLevel.startsWith(topLevel)) {
+                return [XTokenType.IDENTIFIER, identifier];
             }
-        } else {
-            return [XTokenType.IDENTIFIER, identifier];
         }
 
         // this was something that looked like an identifier but wasn't an allowed top-level variable, e.g. email address
@@ -240,16 +242,6 @@ export class XScanner {
         const [type, value] = this.scanNext();
         const end = this.input.getPos();
         return { type: type, value: value, start: start, end: end };
-    }
-
-    public scanAll(): XToken[] {
-        const tokens: XToken[] = [];
-
-        for (let token = this.scan(); token.type != XTokenType.EOF; token = this.scan()) {
-            tokens.push(token);
-        }
-
-        return tokens;
     }
 }
 
