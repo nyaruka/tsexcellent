@@ -16,7 +16,7 @@ describe("isNameChar", () => {
 })
 
 describe("XScanner", () => {
-    const scannerTests: { input: string, tokens: XToken[] }[] = [
+    const scanTests: { input: string, tokens: XToken[] }[] = [
         { input: "@contact", tokens: [{ type: XTokenType.IDENTIFIER, value: "contact", start: 0, end: 8 }] },
         { input: "Hi @contact how are you?", tokens: [{ type: XTokenType.BODY, value: "Hi ", start: 0, end: 3 }, { type: XTokenType.IDENTIFIER, value: "contact", start: 3, end: 11 }, { type: XTokenType.BODY, value: " how are you?", start: 11, end: 24 }] },
         { input: "@contact...?", tokens: [{ type: XTokenType.IDENTIFIER, value: "contact", start: 0, end: 8 }, { type: XTokenType.BODY, value: "...?", start: 8, end: 12 }] },
@@ -31,11 +31,17 @@ describe("XScanner", () => {
         { input: '@@@contact', tokens: [{ type: XTokenType.BODY, value: '@@', start: 0, end: 2 }, { type: XTokenType.IDENTIFIER, value: "contact", start: 2, end: 10 }] },
     ];
 
-    it("scanAll returns correct tokens", () => {
-        for (let test of scannerTests) {
+    it("scan returns correct tokens", () => {
+        for (let test of scanTests) {
             const scanner = new XScanner(new Reader(test.input), ["contact", "flow"]);
             expect(scanner).toBeInstanceOf(XScanner);
-            expect(scanner.scanAll()).toEqual(test.tokens);
+
+            const tokens: XToken[] = [];
+            for (let token = scanner.scan(); token.type != XTokenType.EOF; token = scanner.scan()) {
+                tokens.push(token);
+            }
+
+            expect(tokens).toEqual(test.tokens);
         }
     })
 })
